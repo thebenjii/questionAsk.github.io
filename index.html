@@ -33,17 +33,43 @@
             color: #ff0000;
         }
 
-        ul {
-            list-style: none;
-            padding: 0;
+        .sections {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
         }
 
-        li {
-            margin-bottom: 10px;
+        .section {
+            flex: 1;
+            margin: 0 10px;
             padding: 10px;
             background-color: #ffffff;
             border: 1px solid #000000;
             border-radius: 5px;
+            text-align: center;
+        }
+
+        .question-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .buttons {
+            margin-top: 10px;
+        }
+
+        button {
+            margin: 5px;
+            padding: 10px 20px;
+            background-color: #ff0000;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #cc0000;
         }
 
         footer {
@@ -64,25 +90,151 @@
     </header>
 
     <main>
-        <h2>Questions</h2>
-        <ul>
-            <li>1. What’s your favorite childhood memory?</li>
-            <li>2. If you could travel anywhere in the world, where would it be?</li>
-            <li>3. What’s your dream job?</li>
-            <li>4. Do you have any siblings?</li>
-            <li>5. What’s your go-to comfort food?</li>
-            <li>6. What’s a hobby you’ve always wanted to pick up?</li>
-            <li>7. What’s the most adventurous thing you’ve ever done?</li>
-            <li>8. What type of music do you enjoy most?</li>
-            <li>9. Are you more of a morning person or a night owl?</li>
-            <li>10. Do you have a favorite movie or TV show?</li>
-            <!-- Add remaining questions here -->
-        </ul>
+        <div class="sections">
+            <div class="section" id="sectionA">
+                <h2>Section A</h2>
+                <p>Person A</p>
+            </div>
+            <div class="section" id="sectionB">
+                <h2>Section B</h2>
+                <p>Person B</p>
+            </div>
+        </div>
+
+        <div class="question-container" id="questionContainer">
+            <h2 id="question">Welcome to 100 Questions for a Date!</h2>
+            <div class="buttons">
+                <button id="skipButton">Skip</button>
+                <button id="answerButton">Answer</button>
+            </div>
+        </div>
     </main>
 
     <footer>
         <p>&copy; 2024 100 Questions for a Date. All rights reserved.</p>
     </footer>
+
+    <script>
+        const questions = [
+            "What’s your favorite childhood memory?",
+            "If you could travel anywhere in the world, where would it be?",
+            "What’s your dream job?",
+            "Do you have any siblings?",
+            "What’s your go-to comfort food?",
+            "What’s a hobby you’ve always wanted to pick up?",
+            "What’s the most adventurous thing you’ve ever done?",
+            "What type of music do you enjoy most?",
+            "Are you more of a morning person or a night owl?",
+            "Do you have a favorite movie or TV show?",
+            "What’s your ideal weekend like?",
+            "Do you prefer beaches or mountains?",
+            "What’s the best meal you’ve ever had?",
+            "Who inspires you the most?",
+            "Do you believe in fate or free will?",
+            "What’s one thing you’re really proud of?",
+            "If you won the lottery, what would you do first?",
+            "Do you have a hidden talent?",
+            "What’s your biggest fear?",
+            "What’s a skill you’d love to learn?",
+            "What’s the most important quality in a friend?",
+            "Do you prefer books or movies?",
+            "What’s your dream vacation?",
+            "What’s your favorite holiday tradition?",
+            "What’s your favorite childhood game?",
+            "Do you believe in love at first sight?",
+            "What’s the best concert you’ve ever been to?",
+            "What’s one thing on your bucket list?",
+            "If you could live anywhere, where would it be?",
+            "What’s your guilty pleasure?",
+            "Do you prefer cats or dogs?",
+            "What’s the best advice you’ve ever received?",
+            "What’s your favorite season?",
+            "What’s a memory you’ll never forget?",
+            "What’s the first thing you notice about someone?",
+            "What’s your biggest goal right now?",
+            "Do you prefer city life or country life?",
+            "What’s your favorite kind of dessert?",
+            "What’s the last book you read?",
+            "Do you enjoy cooking or baking more?",
+            "What’s your favorite holiday?",
+            "What’s your favorite sport to watch or play?",
+            "Do you have a favorite artist or band?",
+            "What’s your favorite thing about your job?",
+            "What’s your favorite thing to do on a day off?",
+            "What’s your favorite childhood TV show?",
+            "Do you prefer sweet or savory snacks?",
+            "What’s your favorite outdoor activity?",
+            "What’s your favorite indoor activity?",
+            "Do you have a favorite board game or card game?",
+            "What’s your favorite type of cuisine?",
+            "What’s your favorite childhood toy?",
+            "Do you have a role model?",
+            "What’s your biggest accomplishment?",
+            "What’s a movie you can watch over and over again?",
+            "What’s your favorite drink?",
+            "What’s your favorite childhood book?",
+            "What’s the most embarrassing thing that’s ever happened to you?",
+            "What’s your favorite subject in school?",
+            "Do you prefer sunrise or sunset?",
+            "What’s your dream car?",
+            "What’s your favorite way to relax?",
+            "What’s your favorite holiday activity?",
+            "What’s your favorite thing about your hometown?",
+            "Do you prefer texting or talking on the phone?",
+            "What’s your favorite color?",
+            "Do you have a favorite app or website?",
+            "What’s your favorite childhood movie?",
+            "What’s your favorite childhood memory with a pet?",
+            "What’s your favorite thing about yourself?",
+            "What’s the most difficult decision you’ve ever made?",
+            "What’s your favorite family tradition?",
+            "Do you prefer summer or winter?",
+            "What’s your favorite thing to do with friends?",
+            "What’s your favorite type of pizza topping?",
+            "What’s your favorite thing to do in your free time?",
+            "What’s your favorite thing about traveling?",
+            "What’s your favorite way to celebrate your birthday?",
+            "What’s your favorite memory from school?",
+            "What’s your favorite thing about weekends?",
+            "What’s the most interesting thing you’ve learned recently?",
+            "What’s your favorite kind of weather?",
+            "Do you have a favorite workout or exercise?",
+            "What’s your favorite way to unwind after a long day?",
+            "What’s the best trip you’ve ever taken?",
+            "What’s your favorite song to sing along to?",
+            "What’s your favorite kind of flowers?",
+            "What’s your favorite restaurant?",
+            "What’s your favorite thing about mornings?",
+            "What’s your favorite way to spend a holiday?",
+            "What’s your favorite thing to do outdoors?",
+            "What’s your favorite thing about winter?",
+            "What’s your favorite thing about spring?",
+            "What’s your favorite memory from summer?",
+            "What’s your favorite memory from autumn?",
+            "What’s your favorite hobby to do alone?",
+            "What’s the best surprise you’ve ever received?"
+        ];
+
+        let currentQuestionIndex = 0;
+        const questionElement = document.getElementById("question");
+        const skipButton = document.getElementById("skipButton");
+        const answerButton = document.getElementById("answerButton");
+
+        function showNextQuestion() {
+            if (currentQuestionIndex < questions.length) {
+                questionElement.textContent = questions[currentQuestionIndex];
+                currentQuestionIndex++;
+            } else {
+                questionElement.textContent = "You’ve gone through all the questions!";
+                skipButton.style.display = "none";
+                answerButton.style.display = "none";
+            }
+        }
+
+        skipButton.addEventListener("click", showNextQuestion);
+        answerButton.addEventListener("click", showNextQuestion);
+
+        showNextQuestion();
+    </script>
 </body>
 </html>
-
