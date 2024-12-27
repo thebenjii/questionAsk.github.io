@@ -1,10 +1,9 @@
-<!-- Section A Page -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>100 Questions - Section A</title>
+    <title>100 Questions - Home</title>
     <style>
         body {
             margin: 0;
@@ -28,32 +27,28 @@
             background-color: #f8f8f8;
             border: 2px solid #000000;
             border-radius: 10px;
+            text-align: center;
         }
 
         h1, h2 {
             color: #ff0000;
         }
 
-        .question-container {
+        .options {
             margin-top: 20px;
-            text-align: center;
         }
 
-        .buttons {
-            margin-top: 10px;
-        }
-
-        button {
-            margin: 5px;
+        .options a {
+            display: inline-block;
+            margin: 10px;
             padding: 10px 20px;
             background-color: #ff0000;
             color: #ffffff;
-            border: none;
+            text-decoration: none;
             border-radius: 5px;
-            cursor: pointer;
         }
 
-        button:hover {
+        .options a:hover {
             background-color: #cc0000;
         }
 
@@ -70,178 +65,51 @@
 </head>
 <body>
     <header>
-        <h1>100 Questions - Section A</h1>
-        <p>Person A's Questions</p>
+        <h1>100 Questions - Home</h1>
+        <p>Choose your section to begin the fun!</p>
     </header>
 
     <main>
-        <div class="question-container" id="questionContainer">
-            <h2 id="question">Welcome to 100 Questions for Person A!</h2>
-            <div class="buttons">
-                <button id="skipButton">Skip</button>
-                <button id="answerButton">Answer</button>
-            </div>
+        <div class="options">
+            <a href="sectionA.html">Section A</a>
+            <a href="sectionB.html">Section B</a>
         </div>
+
+        <script>
+            // Centralized question database
+            const questions = [
+                "What’s your favorite childhood memory?",
+                "If you could travel anywhere in the world, where would it be?",
+                "What’s your dream job?",
+                "Do you have any siblings?",
+                "What’s your go-to comfort food?",
+                "What’s a hobby you’ve always wanted to pick up?",
+                "What’s the most adventurous thing you’ve ever done?",
+                "What type of music do you enjoy most?",
+                "Are you more of a morning person or a night owl?",
+                "Do you have a favorite movie or TV show?",
+                // Add up to 100 questions here
+            ];
+
+            // Function to retrieve questions by index or shuffle
+            function getQuestions(section) {
+                if (section === 'A') {
+                    return questions.slice(0, Math.ceil(questions.length / 2));
+                } else if (section === 'B') {
+                    return questions.slice(Math.ceil(questions.length / 2));
+                } else {
+                    return questions;
+                }
+            }
+
+            // Export data to other pages if needed (or set local storage here)
+            localStorage.setItem('questionsA', JSON.stringify(getQuestions('A')));
+            localStorage.setItem('questionsB', JSON.stringify(getQuestions('B')));
+        </script>
     </main>
 
     <footer>
         <p>&copy; 2024 100 Questions. All rights reserved.</p>
     </footer>
-
-    <script>
-        const questionsA = [
-            "What’s your favorite childhood memory?",
-            "If you could travel anywhere in the world, where would it be?",
-            "What’s your dream job?",
-            "Do you have any siblings?",
-            "What’s your go-to comfort food?",
-            // Add more unique questions for Person A here
-        ];
-
-        let currentQuestionIndex = 0;
-        const questionElement = document.getElementById("question");
-        const skipButton = document.getElementById("skipButton");
-        const answerButton = document.getElementById("answerButton");
-
-        function showNextQuestion() {
-            if (currentQuestionIndex < questionsA.length) {
-                questionElement.textContent = questionsA[currentQuestionIndex];
-                currentQuestionIndex++;
-            } else {
-                questionElement.textContent = "You’ve gone through all the questions for Person A!";
-                skipButton.style.display = "none";
-                answerButton.style.display = "none";
-            }
-        }
-
-        skipButton.addEventListener("click", showNextQuestion);
-        answerButton.addEventListener("click", showNextQuestion);
-
-        showNextQuestion();
-    </script>
-</body>
-</html>
-
-<!-- Section B Page -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>100 Questions - Section B</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #ffffff;
-            color: #000000;
-            line-height: 1.6;
-        }
-
-        header {
-            background-color: #ff0000;
-            color: #ffffff;
-            padding: 20px;
-            text-align: center;
-        }
-
-        main {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #f8f8f8;
-            border: 2px solid #000000;
-            border-radius: 10px;
-        }
-
-        h1, h2 {
-            color: #ff0000;
-        }
-
-        .question-container {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .buttons {
-            margin-top: 10px;
-        }
-
-        button {
-            margin: 5px;
-            padding: 10px 20px;
-            background-color: #ff0000;
-            color: #ffffff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #cc0000;
-        }
-
-        footer {
-            text-align: center;
-            background-color: #000000;
-            color: #ffffff;
-            padding: 10px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <h1>100 Questions - Section B</h1>
-        <p>Person B's Questions</p>
-    </header>
-
-    <main>
-        <div class="question-container" id="questionContainer">
-            <h2 id="question">Welcome to 100 Questions for Person B!</h2>
-            <div class="buttons">
-                <button id="skipButton">Skip</button>
-                <button id="answerButton">Answer</button>
-            </div>
-        </div>
-    </main>
-
-    <footer>
-        <p>&copy; 2024 100 Questions. All rights reserved.</p>
-    </footer>
-
-    <script>
-        const questionsB = [
-            "What’s a hobby you’ve always wanted to pick up?",
-            "What’s the most adventurous thing you’ve ever done?",
-            "What type of music do you enjoy most?",
-            "Are you more of a morning person or a night owl?",
-            "Do you have a favorite movie or TV show?",
-            // Add more unique questions for Person B here
-        ];
-
-        let currentQuestionIndex = 0;
-        const questionElement = document.getElementById("question");
-        const skipButton = document.getElementById("skipButton");
-        const answerButton = document.getElementById("answerButton");
-
-        function showNextQuestion() {
-            if (currentQuestionIndex < questionsB.length) {
-                questionElement.textContent = questionsB[currentQuestionIndex];
-                currentQuestionIndex++;
-            } else {
-                questionElement.textContent = "You’ve gone through all the questions for Person B!";
-                skipButton.style.display = "none";
-                answerButton.style.display = "none";
-            }
-        }
-
-        skipButton.addEventListener("click", showNextQuestion);
-        answerButton.addEventListener("click", showNextQuestion);
-
-        showNextQuestion();
-    </script>
 </body>
 </html>
