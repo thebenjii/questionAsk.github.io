@@ -5,9 +5,17 @@
   <title>Question Maker 💬</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    :root {
+      --primary: #6C63FF;
+      --secondary: #FF6584;
+      --bg: #f0f2f5;
+      --text: #333;
+      --light: #ffffff;
+    }
+
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: #f0f2f5;
+      background: var(--bg);
       margin: 0;
       padding: 0;
     }
@@ -16,34 +24,37 @@
       max-width: 600px;
       margin: 40px auto;
       padding: 30px 20px;
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+      background: var(--light);
+      border-radius: 20px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.1);
     }
 
     h1 {
       text-align: center;
-      color: #6C63FF;
+      color: var(--primary);
+      font-size: 2em;
+      margin-bottom: 1rem;
     }
 
     select, button {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       margin: 10px 0;
-      border-radius: 8px;
+      border-radius: 10px;
       font-size: 1em;
     }
 
     button {
-      background-color: #6C63FF;
+      background-color: var(--primary);
       color: white;
+      font-weight: bold;
       border: none;
       cursor: pointer;
-      transition: background 0.3s ease;
+      transition: 0.3s ease;
     }
 
     button:hover {
-      background-color: #FF6584;
+      background-color: var(--secondary);
     }
 
     #question-box {
@@ -52,18 +63,14 @@
     }
 
     #question-text {
-      font-size: 1.2em;
-      margin: 20px 0;
-      min-height: 80px;
+      font-size: 1.3em;
+      color: var(--text);
+      margin-bottom: 25px;
       padding: 15px;
-      background: #f9f9ff;
-      border-left: 5px solid #6C63FF;
+      background: #f7f7ff;
+      border-left: 5px solid var(--primary);
       border-radius: 8px;
-    }
-
-    #progress {
-      font-size: 0.95em;
-      color: #777;
+      min-height: 80px;
     }
 
     .btn-row {
@@ -73,7 +80,14 @@
       flex-wrap: wrap;
     }
 
-    @media(max-width: 600px) {
+    #progress {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 0.95em;
+      color: #777;
+    }
+
+    @media (max-width: 600px) {
       .container {
         margin: 20px;
       }
@@ -83,10 +97,11 @@
 <body>
   <div class="container">
     <h1>Question Maker 💬</h1>
+
     <select id="mode">
-      <option>Leticia</option>
+      <option>Ray Mode</option>
       <option>Benji is Driving</option>
-      <option>Benji</option>
+      <option>Benji and Them</option>
     </select>
 
     <select id="tone">
@@ -114,7 +129,7 @@
     let sessionLength = 0;
 
     async function loadQuestions(tone) {
-      const file = tone === 'light' ? 'light_questions.txt' : 'deep_questions.txt';
+      const file = tone === 'light' ? 'light_questions-2.txt' : 'deep_questions.txt';
       const res = await fetch(file);
       const text = await res.text();
       return text.split('\\n').map(q => q.trim()).filter(q => q.length > 0);
@@ -125,7 +140,7 @@
       const tone = document.getElementById('tone').value;
 
       // Treat both Benji options the same
-      const isBenji = (mode === 'Benji is Driving' || mode === 'Benji');
+      const isBenji = (mode === 'Benji is Driving' || mode === 'Benji and Them');
 
       const allQs = await loadQuestions(tone);
 
@@ -148,7 +163,8 @@
 
     function showQuestion() {
       if (index >= sessionLength) {
-        document.getElementById('question-text').textContent = "That's all! ✅ You answered " + satisfied + " out of " + sessionLength + " questions.";
+        document.getElementById('question-text').textContent =
+          "That's all! ✅ You answered " + satisfied + " out of " + sessionLength + " questions.";
         document.getElementById('progress').textContent = '';
         return;
       }
@@ -161,7 +177,8 @@
       }
 
       document.getElementById('question-text').textContent = q;
-      document.getElementById('progress').textContent = "Question " + (index + 1) + " of " + sessionLength + " | Satisfied: " + satisfied;
+      document.getElementById('progress').textContent =
+        "Question " + (index + 1) + " of " + sessionLength + " | Satisfied: " + satisfied;
     }
 
     function skipQuestion() {
