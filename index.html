@@ -172,14 +172,6 @@
       return toneChip ? toneChip.dataset.tone : 'light';
     }
 
-    document.querySelectorAll(".chip").forEach(chip => {
-      chip.addEventListener("click", () => {
-        const group = chip.parentElement;
-        group.querySelectorAll(".chip").forEach(c => c.classList.remove("selected"));
-        chip.classList.add("selected");
-      });
-    });
-
     async function loadQuestions(tone) {
       const file = tone === 'light' ? 'light_questions-2.txt' : 'deep_questions.txt';
       const res = await fetch(file);
@@ -187,7 +179,7 @@
       return text.split('\n').map(q => q.trim()).filter(q => q.length > 0);
     }
 
-    async function startSession() {
+    async function autoLoadOnToggle() {
       const tone = getSelectedTone();
       const allQs = await loadQuestions(tone);
       usedCounts = {};
@@ -203,10 +195,14 @@
       satisfied = 0;
       sessionLength = questions.length;
 
+      if (document.getElementById('question-box').style.display === 'block') {
+        showQuestion();
+      }
+    }
+
+    function startSession() {
       document.getElementById('question-box').style.display = 'block';
-      document.getElementById('summary').textContent = '';
-      document.getElementById('progress-fill').style.width = '0%';
-      showQuestion();
+      autoLoadOnToggle();
     }
 
     function showQuestion() {
@@ -248,6 +244,15 @@
         [arr[i], arr[j]] = [arr[j], arr[i]];
       }
     }
+
+    document.querySelectorAll(".chip").forEach(chip => {
+      chip.addEventListener("click", () => {
+        const group = chip.parentElement;
+        group.querySelectorAll(".chip").forEach(c => c.classList.remove("selected"));
+        chip.classList.add("selected");
+        autoLoadOnToggle();
+      });
+    });
   </script>
 </body>
 </html>
