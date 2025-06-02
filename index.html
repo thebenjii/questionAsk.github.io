@@ -1,10 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Question Maker: Linked List Edition</title>
+  <meta charset="UTF-8" />
+  <title>Question Maker 💬</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f8f8;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    .controls {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .controls label {
+      font-weight: bold;
+    }
+
+    select, button {
+      padding: 10px;
+      font-size: 1em;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    #question-box {
+      text-align: center;
+    }
+
+    #question-text {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -24,15 +72,117 @@
         <option>deep</option>
       </select>
 
-      <button onclick="initializeList()">Start / Reset</button>
+      <button id="start-btn">Start / Reset</button>
     </div>
 
     <div id="question-box">
       <p id="question-text">Choose a mode and tone to begin!</p>
-      <button onclick="showNextQuestion()">Next Question</button>
+      <button id="next-btn">Next Question</button>
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    class QuestionNode {
+      constructor(text) {
+        this.text = text;
+        this.next = null;
+      }
+    }
+
+    function createLinkedList(arr) {
+      if (arr.length === 0) return null;
+      let head = new QuestionNode(arr[0]);
+      let current = head;
+      for (let i = 1; i < arr.length; i++) {
+        current.next = new QuestionNode(arr[i]);
+        current = current.next;
+      }
+      return head;
+    }
+
+    const questions = {
+      "Ray Mode": {
+        light: [
+          "What emoji describes me best?",
+          "What’s your go-to snack combo?",
+          "If your laugh had a color, what would it be?",
+          "Would you rather text or talk forever?",
+          "What’s something fun you’ve always wanted to try?"
+        ],
+        deep: [
+          "What’s something you wish more people understood about you?",
+          "What part of today felt most 'us'?",
+          "When do you feel most confident in who you are?",
+          "How do you want to be loved?",
+          "What lie do you sometimes still believe about yourself?"
+        ]
+      },
+      "Benji is Driving": {
+        light: [
+          "Dogs or cats?",
+          "What’s my rom-com archetype?",
+          "Who’s more likely to make us late?",
+          "What weird talent do you wish you had?",
+          "If I got arrested tonight, what would it be for?"
+        ],
+        deep: [
+          "What’s your biggest fear in relationships?",
+          "When do you feel most connected to your purpose?",
+          "What was your turning point in life?",
+          "What’s one prayer you’ve seen answered?",
+          "What truth do you run from when it’s quiet?"
+        ]
+      },
+      "Benji and Them": {
+        light: [
+          "What would our couple TikTok be like?",
+          "If we started a band, what would we be called?",
+          "Do you think I could beat you in a dance battle?",
+          "Would we survive a zombie apocalypse together?",
+          "Who would play us in a movie — be honest."
+        ],
+        deep: [
+          "Do you think we’re a good match energy-wise?",
+          "When do you feel most loved?",
+          "What’s something you’d want me to know if we dated?",
+          "What scares you most about someone knowing the real you?",
+          "What’s your definition of spiritual intimacy?"
+        ]
+      }
+    };
+
+    let linkedLists = {};
+    for (const mode in questions) {
+      linkedLists[mode] = {};
+      for (const tone in questions[mode]) {
+        linkedLists[mode][tone] = createLinkedList(questions[mode][tone]);
+      }
+    }
+
+    let currentNode = null;
+
+    function initializeList() {
+      const mode = document.getElementById("mode").value;
+      const tone = document.getElementById("tone").value;
+      currentNode = linkedLists[mode][tone];
+      showNextQuestion();
+    }
+
+    function showNextQuestion() {
+      const questionText = document.getElementById("question-text");
+      if (currentNode) {
+        questionText.textContent = currentNode.text;
+        currentNode = currentNode.next;
+      } else {
+        questionText.textContent = "No more questions! 🎉";
+      }
+    }
+
+    // Attach event listeners when DOM is ready
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("start-btn").addEventListener("click", initializeList);
+      document.getElementById("next-btn").addEventListener("click", showNextQuestion);
+    });
+  </script>
 </body>
 </html>
