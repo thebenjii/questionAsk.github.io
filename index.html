@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Question Maker</title>
+  <title>Date Night Question Maker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
-    <h1>Welcome to Question Maker</h1>
-    <p>Select a mode to get started:</p>
+    <h1>Question Maker 💬</h1>
+    <p>Pick a vibe to start your date night questions:</p>
 
     <div id="mode-buttons">
       <button class="mode-btn" data-mode="Ray Mode">Ray Mode</button>
@@ -21,7 +22,7 @@
     <div id="question-section" class="hidden">
       <p id="question-text"></p>
       <div id="satisfaction-options">
-        <label>Rate satisfaction:</label>
+        <label>How much did you enjoy this question?</label>
         <div class="ratings">
           <button class="rate-btn" data-score="1">1</button>
           <button class="rate-btn" data-score="2">2</button>
@@ -34,7 +35,7 @@
     </div>
 
     <div id="results-section" class="hidden">
-      <h2>Summary</h2>
+      <h2>Date Recap 💖</h2>
       <p id="summary-text"></p>
       <button onclick="location.reload()">Replay</button>
     </div>
