@@ -9,37 +9,35 @@
 <body>
   <div class="container">
     <h1>Question Maker 💬</h1>
-    <p>Pick a vibe to start your date night questions:</p>
 
-    <div id="mode-buttons">
-      <button class="mode-btn" data-mode="Ray Mode">Ray Mode</button>
-      <button class="mode-btn" data-mode="Benji is Driving">Benji is Driving</button>
-      <button class="mode-btn" data-mode="Benji and Them">Benji and Them</button>
-    </div>
+    <div class="controls">
+      <label for="mode">Mode:</label>
+      <select id="mode">
+        <option value="Ray Mode">Ray Mode</option>
+        <option value="Benji is Driving">Benji is Driving</option>
+        <option value="Benji and Them">Benji and Them</option>
+      </select>
 
-    <div id="tone-toggle">
-      <label for="depth">Choose the vibe:</label>
-      <select id="depth">
+      <label for="tone">Tone:</label>
+      <select id="tone">
         <option value="light">Keep It Light</option>
         <option value="deep">Get Deep</option>
       </select>
-    </div>
 
-    <button id="start-btn" disabled>Start Questions</button>
+      <button id="start-btn">Start / Reset</button>
+    </div>
 
     <div id="question-section" class="hidden fade">
       <p id="question-text"></p>
-      <div id="satisfaction-options">
-        <label>How much did you enjoy this question?</label>
-        <div class="ratings">
-          <button class="rate-btn" data-score="1">1</button>
-          <button class="rate-btn" data-score="2">2</button>
-          <button class="rate-btn" data-score="3">3</button>
-          <button class="rate-btn" data-score="4">4</button>
-          <button class="rate-btn" data-score="5">5</button>
-        </div>
+      <div class="ratings">
+        <button class="rate-btn" data-score="1">1</button>
+        <button class="rate-btn" data-score="2">2</button>
+        <button class="rate-btn" data-score="3">3</button>
+        <button class="rate-btn" data-score="4">4</button>
+        <button class="rate-btn" data-score="5">5</button>
       </div>
       <button id="skip-btn">Skip</button>
+      <button id="end-btn">End Game</button>
     </div>
 
     <div id="results-section" class="hidden">
