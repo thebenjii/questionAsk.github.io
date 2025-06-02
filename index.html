@@ -133,9 +133,9 @@
       <h1>Question Maker ✨</h1>
 
       <div class="chips" id="mode-chips">
-        <div class="chip selected">Ray Mode</div>
+        <div class="chip selected">Leticia</div>
         <div class="chip">Benji is Driving</div>
-        <div class="chip">Benji and Them</div>
+        <div class="chip">Benji</div>
       </div>
 
       <div class="chips" id="tone-chips">
@@ -172,7 +172,7 @@
     });
 
     async function loadQuestions(tone) {
-      const file = tone === 'light' ? 'light_questions.txt-2' : 'deep_questions.txt';
+      const file = tone === 'light' ? 'light_questions-2.txt' : 'deep_questions.txt';
       const res = await fetch(file);
       const text = await res.text();
       return text.split('\\n').join('\\n').split('\n').map(q => q.trim()).filter(q => q.length > 0);
