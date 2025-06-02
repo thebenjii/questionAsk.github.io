@@ -1,224 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>100 Questions - Home</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #ffffff;
-            color: #000000;
-            line-height: 1.6;
-        }
-
-        header {
-            background-color: #ff0000;
-            color: #ffffff;
-            padding: 20px;
-            text-align: center;
-        }
-
-        main {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #f8f8f8;
-            border: 2px solid #000000;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        h1, h2 {
-            color: #ff0000;
-        }
-
-        .options {
-            margin-top: 20px;
-        }
-
-        .options a {
-            display: inline-block;
-            margin: 10px;
-            padding: 10px 20px;
-            background-color: #ff0000;
-            color: #ffffff;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-
-        .options a:hover {
-            background-color: #cc0000;
-        }
-
-        footer {
-            text-align: center;
-            background-color: #000000;
-            color: #ffffff;
-            padding: 10px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Question Maker</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>100 Questions - Home</h1>
-        <p>Choose your section to begin the fun!</p>
-    </header>
+  <div class="container">
+    <h1>Welcome to Question Maker</h1>
+    <p>Select a mode to get started:</p>
 
-    <main>
-        <div class="options">
-            <a href="SectionA.html">Section A</a>
-            <a href="SectionB.html">Section B</a>
+    <div id="mode-buttons">
+      <button class="mode-btn" data-mode="Ray Mode">Ray Mode</button>
+      <button class="mode-btn" data-mode="Benji is Driving">Benji is Driving</button>
+      <button class="mode-btn" data-mode="Benji and Them">Benji and Them</button>
+    </div>
+
+    <button id="start-btn" disabled>Start Questions</button>
+
+    <div id="question-section" class="hidden">
+      <p id="question-text"></p>
+      <div id="satisfaction-options">
+        <label>Rate satisfaction:</label>
+        <div class="ratings">
+          <button class="rate-btn" data-score="1">1</button>
+          <button class="rate-btn" data-score="2">2</button>
+          <button class="rate-btn" data-score="3">3</button>
+          <button class="rate-btn" data-score="4">4</button>
+          <button class="rate-btn" data-score="5">5</button>
         </div>
+      </div>
+      <button id="skip-btn">Skip</button>
+    </div>
 
-        <script>
-            // Centralized question database
-            const questions = [
-                "What’s your favorite childhood memory?",
-                "If you could travel anywhere in the world, where would it be?",
-                "What’s your dream job?",
-                "Do you have any siblings?",
-                "What’s your go-to comfort food?",
-                "What’s a hobby you’ve always wanted to pick up?",
-                "What’s the most adventurous thing you’ve ever done?",
-                "What type of music do you enjoy most?",
-                "Are you more of a morning person or a night owl?",
-                "Do you have a favorite movie or TV show?",
-                "What’s the weirdest food you’ve ever eaten, and would you try it again?",
-                "If you could live in any time period, past or future, when would it be?",
-                "What’s the most spontaneous thing you’ve ever done?",
-                "If you could have any pet in the world, even an exotic one, what would it be?",
-                "What’s your favorite childhood game or activity?",
-                "Do you believe in soulmates? Why or why not?",
-                "If you were stranded on a desert island, what three things would you want with you?",
-                "What’s a talent or skill you wish you had?",
-                "If you could only listen to one artist or band for the rest of your life, who would it be?",
-                "What’s the most embarrassing thing that’s ever happened to you in public?",
-                "What’s a personal goal you’ve been working on lately?",
-                "If you could trade places with anyone for a day, who would it be and why?",
-                "What’s the craziest adventure you’ve ever been on?",
-                "What’s your favorite way to spend a rainy day?",
-                "If your life was a movie, what genre would it be, and who would play you?",
-                "What’s the most valuable lesson you’ve learned from a past relationship?",
-                "If you could have any superpower, what would it be, and how would you use it?",
-                "What’s your guilty pleasure snack or food?",
-                "What’s the best compliment you’ve ever received?",
-                "If you won the lottery tomorrow, what’s the first thing you’d do?",
-                "What’s a piece of advice you’ve received that’s stuck with you?",
-                "If you could instantly master any skill, what would it be?",
-                "What’s a movie or show you could watch over and over without getting bored?",
-                "What’s your favorite holiday tradition?",
-                "If you could write a book, what would it be about?",
-                "What’s the most daring thing you’ve ever done?",
-                "Do you believe in love at first sight?",
-                "If you had to eat one meal for the rest of your life, what would it be?",
-                "What’s something you’ve always wanted to learn but never got around to?",
-                "What’s your dream vacation destination?",
-                "What’s the funniest thing that’s happened to you recently?",
-                "What’s one thing you’re really proud of?",
-                "If you could switch lives with a character from a book or movie, who would it be?",
-                "What’s a secret talent you have that most people don’t know about?",
-                "What’s the last thing that made you laugh out loud?",
-                "If you could relive one day in your life, which would it be?",
-                "What’s the best meal you’ve ever had, and where was it?",
-                "If you could change one thing about the world, what would it be?",
-                "What’s your idea of a perfect weekend?",
-                "If you could design your dream home, what would it look like?",
-                "What’s your favorite thing to do when you’re feeling stressed?",
-                "What’s the most unique place you’ve ever traveled to?",
-                "If you could ask your future self one question, what would it be?",
-                "What’s a song that always puts you in a good mood?",
-                "If you could relive your childhood for one week, what’s the first thing you’d do?",
-                "What’s your favorite memory with your family?",
-                "If you had unlimited time and money, what hobby would you pick up?",
-                "What’s your favorite way to celebrate your birthday?",
-                "If you were a flavor of ice cream, what would you be and why?",
-                "What’s something silly or random that never fails to make you laugh?",
-                "If you could live anywhere in the world, where would it be?",
-                "What’s the most adventurous thing on your bucket list?",
-                "If you could have dinner with any historical figure, who would it be and why?",
-                "What’s the best gift you’ve ever received?",
-                "If you were a superhero, what would your name and costume look like?",
-                "What’s one thing you’ve done that you never thought you could?",
-                "If you could only watch one genre of movies for the rest of your life, what would it be?",
-                "What’s your favorite childhood memory involving a friend?",
-                "What’s the last thing you did for the first time?",
-                "If you could live inside any fictional universe, which would it be?",
-                "What’s the funniest prank you’ve ever played on someone?",
-                "Do you believe in second chances? Why or why not?",
-                "If you were given a free ticket to anywhere in the world, where would you go?",
-                "What’s the most ridiculous fact you know?",
-                "If you could have any job in the world for a week, what would it be?",
-                "What’s your biggest pet peeve?",
-                "If you were a character in a romantic comedy, what would your role be?",
-                "What’s a memory that always makes you tear up (in a good way)?",
-                "If you had a theme song, what would it be?",
-                "What’s your favorite comfort movie or TV show?",
-                "If you could spend a day in someone else’s shoes, who would it be?",
-                "What’s the best advice you’ve ever given to someone?",
-                "What’s your favorite board game or card game?",
-                "If you could be famous for one talent, what would it be?",
-                "What’s your favorite thing about your hometown?",
-                "If you could bring back one trend from the past, what would it be?",
-                "What’s the strangest compliment you’ve ever received?",
-                "If you had a personal mascot, what would it be and why?",
-                "What’s a food you hated as a kid but love now?",
-                "If you could instantly speak any language, which one would it be?",
-                "What’s a small thing that always makes your day better?",
-                "If you could redo any decision in your life, what would it be?",
-                "What’s your favorite thing to do on a lazy Sunday?",
-                "If you had a time machine, what moment in history would you visit?",
-                "What’s the most thoughtful gift you’ve ever given?",
-                "If you could have any mythical creature as a pet, what would it be?",
-                "What’s the most fun you’ve ever had at a party or event?",
-                "If you had to switch careers tomorrow, what would you do?",
-                "What’s a movie or book that had a big impact on you?",
-                "If you could write a letter to your younger self, what would it say?",
-                "What’s the most underrated place you’ve ever visited?",
-                "If you could invent something to make your life easier, what would it be?",
-                "What’s your favorite type of dessert, and why?",
-                "If you could meet your childhood hero, what would you say?",
-                "What’s your funniest or most embarrassing childhood story?",
-                "If you could design a perfect day, what would it look like?",
-                "What’s something about yourself that surprises people?",
-                "If you could swap lives with someone for a year, who would it be and why?",
-                "What’s a challenge you’ve faced that made you stronger?",
-                "If you could spend a year traveling, which three countries would you visit first?"
-            ];
-
-            // Shuffle questions randomly
-            function shuffle(array) {
-                for (let i = array.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [array[i], array[j]] = [array[j], array[i]];
-                }
-                return array;
-            }
-
-            // Function to retrieve questions by index or shuffle
-            function getQuestions(section) {
-                const shuffledQuestions = shuffle([...questions]);
-                if (section === 'A') {
-                    return shuffledQuestions.slice(0, Math.ceil(shuffledQuestions.length / 2));
-                } else if (section === 'B') {
-                    return shuffledQuestions.slice(Math.ceil(shuffledQuestions.length / 2));
-                } else {
-                    return shuffledQuestions;
-                }
-            }
-
-            // Export data to other pages if needed (or set local storage here)
-            localStorage.setItem('questionsA', JSON.stringify(getQuestions('A')));
-            localStorage.setItem('questionsB', JSON.stringify(getQuestions('B')));
-        </script>
-    </main>
-
-    <footer>
-        <p>&copy; 2024 100 Questions. All rights reserved.</p>
-    </footer>
+    <div id="results-section" class="hidden">
+      <h2>Summary</h2>
+      <p id="summary-text"></p>
+      <button onclick="location.reload()">Replay</button>
+    </div>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
