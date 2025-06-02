@@ -12,10 +12,13 @@ let currentQuestion = 0;
 let scores = [];
 let skipped = 0;
 
+// You can make these mode-dependent later if you want
 const questions = [
-  "How satisfied are you with today's experience?",
-  "How well did this meet your expectations?",
-  "Would you recommend this to a friend?"
+  "What’s your favorite memory from today so far?",
+  "If we could teleport anywhere right now, where would you go?",
+  "What’s something new you’ve learned about me tonight?",
+  "What’s one thing you’re grateful for in this moment?",
+  "On a scale of 1-10, how fun has this date been so far?"
 ];
 
 modes.forEach(btn => {
@@ -60,10 +63,12 @@ function showResults() {
   questionSection.classList.add('hidden');
   resultsSection.classList.remove('hidden');
   const average = scores.length ? (scores.reduce((a,b) => a + b) / scores.length).toFixed(2) : "N/A";
-  summaryText.textContent = `
-    Mode: ${selectedMode}
-    Total Questions: ${questions.length}
-    Skipped: ${skipped}
-    Average Satisfaction Score: ${average}
+
+  summaryText.innerHTML = `
+    <strong>Mode:</strong> ${selectedMode} <br>
+    <strong>Total Questions:</strong> ${questions.length} <br>
+    <strong>Skipped:</strong> ${skipped} <br>
+    <strong>Average Enjoyment Rating:</strong> ${average} ⭐<br><br>
+    Thanks for playing — hope the questions made your date even better! 😊
   `;
 }
