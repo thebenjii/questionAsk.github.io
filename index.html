@@ -5,17 +5,9 @@
   <title>Question Maker 💬</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    :root {
-      --primary: #6C63FF;
-      --secondary: #FF6584;
-      --bg: #f0f2f5;
-      --text: #333;
-      --light: #ffffff;
-    }
-
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: var(--bg);
+      background: #f0f2f5;
       margin: 0;
       padding: 0;
     }
@@ -24,97 +16,64 @@
       max-width: 600px;
       margin: 40px auto;
       padding: 30px 20px;
-      background: var(--light);
-      border-radius: 20px;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 12px 24px rgba(0,0,0,0.1);
     }
 
     h1 {
       text-align: center;
-      color: var(--primary);
-      font-size: 2em;
-      margin-bottom: 1rem;
-    }
-
-    .controls {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      margin-bottom: 30px;
-    }
-
-    .controls label {
-      font-weight: bold;
-      color: var(--text);
+      color: #6C63FF;
     }
 
     select, button {
-      padding: 12px;
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 8px;
       font-size: 1em;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-    }
-
-    select {
-      background-color: #f9f9f9;
     }
 
     button {
-      background-color: var(--primary);
+      background-color: #6C63FF;
       color: white;
-      font-weight: bold;
       border: none;
-      transition: 0.3s;
       cursor: pointer;
+      transition: background 0.3s ease;
     }
 
     button:hover {
-      background-color: var(--secondary);
+      background-color: #FF6584;
     }
 
     #question-box {
       text-align: center;
       margin-top: 20px;
-      opacity: 0;
-      transition: opacity 0.5s ease-in-out;
-    }
-
-    #question-box.visible {
-      opacity: 1;
     }
 
     #question-text {
-      font-size: 1.3em;
-      color: var(--text);
-      margin-bottom: 25px;
-      padding: 15px;
-      background: #f7f7ff;
-      border-left: 5px solid var(--primary);
-      border-radius: 8px;
+      font-size: 1.2em;
+      margin: 20px 0;
       min-height: 80px;
-    }
-
-    .button-row {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
+      padding: 15px;
+      background: #f9f9ff;
+      border-left: 5px solid #6C63FF;
+      border-radius: 8px;
     }
 
     #progress {
-      text-align: center;
-      margin-top: 10px;
       font-size: 0.95em;
       color: #777;
     }
 
-    .footer {
-      text-align: center;
-      font-size: 0.9em;
-      color: #888;
-      margin-top: 20px;
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
     }
 
-    @media (max-width: 600px) {
+    @media(max-width: 600px) {
       .container {
         margin: 20px;
       }
@@ -124,145 +83,106 @@
 <body>
   <div class="container">
     <h1>Question Maker 💬</h1>
+    <select id="mode">
+      <option>Leticia</option>
+      <option>Benji is Driving</option>
+      <option>Benji</option>
+    </select>
 
-    <div class="controls">
-      <label for="mode">Select Mode</label>
-      <select id="mode">
-        <option>Leticia</option>
-        <option>Benji is Driving</option>
-        <option>Benji</option>
-      </select>
+    <select id="tone">
+      <option value="light">Light</option>
+      <option value="deep">Deep</option>
+    </select>
 
-      <label for="tone">Select Tone</label>
-      <select id="tone">
-        <option>light</option>
-        <option>deep</option>
-      </select>
+    <button onclick="startSession()">Start Questions</button>
 
-      <button id="start-btn">Start / Reset</button>
-    </div>
-
-    <div id="question-box">
-      <p id="question-text">Choose a mode and tone to begin!</p>
-
-      <div class="button-row">
-        <button id="skip-btn">Skip</button>
-        <button id="satisfy-btn">Answer (Satisfying)</button>
+    <div id="question-box" style="display:none;">
+      <p id="question-text">Loading...</p>
+      <div class="btn-row">
+        <button onclick="skipQuestion()">Skip</button>
+        <button onclick="answerQuestion()">Answer</button>
       </div>
-
-      <div id="progress"></div>
-    </div>
-
-    <div class="footer">
-      Designed Benji | Hope you enjoy.
+      <p id="progress"></p>
     </div>
   </div>
 
   <script>
-    class QuestionNode {
-      constructor(text) {
-        this.text = text;
-        this.next = null;
-      }
-    }
-
-    function createLinkedList(arr) {
-      if (arr.length === 0) return null;
-      let head = new QuestionNode(arr[0]);
-      let current = head;
-      for (let i = 1; i < arr.length; i++) {
-        current.next = new QuestionNode(arr[i]);
-        current = current.next;
-      }
-      return head;
-    }
-
-    const questions = {
-      "Leticia": {
-        light: [
-          "What's something fun you always wanted to try?",
-          "What's a food combo you swear by?",
-          "What emoji fits me best?"
-        ],
-        deep: [
-          "What lie do you still believe about yourself?",
-          "What does love mean to you?",
-          "When do you feel most seen?"
-        ]
-      },
-      "Benji is Driving": {
-        light: [
-          "What’s my rom-com role?",
-          "Would I survive jail?",
-          "Weirdest dream you’ve ever had?"
-        ],
-        deep: [
-          "What’s one prayer you've seen answered?",
-          "When do you feel closest to God?",
-          "What scares you in relationships?"
-        ]
-      },
-      "Benji": {
-        light: [
-          "What’s our duo name?",
-          "If we had a podcast, what would it be called?",
-          "Dance battle: who wins?"
-        ],
-        deep: [
-          "What’s your idea of spiritual intimacy?",
-          "What makes someone 'the one' for you?",
-          "What’s a truth you’re wrestling with?"
-        ]
-      }
-    };
-
-    let linkedLists = {};
-    for (const mode in questions) {
-      linkedLists[mode] = {};
-      for (const tone in questions[mode]) {
-        linkedLists[mode][tone] = createLinkedList(questions[mode][tone]);
-      }
-    }
-
-    let currentNode = null;
-    let total = 0;
+    let questions = [];
+    let usedCounts = {};
     let index = 0;
-    let answered = 0;
+    let satisfied = 0;
+    let sessionLength = 0;
 
-    function initializeList() {
-      const mode = document.getElementById("mode").value;
-      const tone = document.getElementById("tone").value;
-      const array = questions[mode][tone];
-      total = array.length;
-      index = 0;
-      answered = 0;
-      currentNode = createLinkedList(array);
-      document.getElementById("question-box").classList.add("visible");
-      showNextQuestion();
+    async function loadQuestions(tone) {
+      const file = tone === 'light' ? 'light_questions.txt' : 'deep_questions.txt';
+      const res = await fetch(file);
+      const text = await res.text();
+      return text.split('\\n').map(q => q.trim()).filter(q => q.length > 0);
     }
 
-    function showNextQuestion() {
-      const questionText = document.getElementById("question-text");
-      const progress = document.getElementById("progress");
-      if (currentNode) {
-        questionText.textContent = currentNode.text;
-        progress.textContent = `Question ${index + 1} of ${total} | Satisfied: ${answered}`;
-        currentNode = currentNode.next;
+    async function startSession() {
+      const mode = document.getElementById('mode').value;
+      const tone = document.getElementById('tone').value;
+
+      // Treat both Benji options the same
+      const isBenji = (mode === 'Benji is Driving' || mode === 'Benji');
+
+      const allQs = await loadQuestions(tone);
+
+      usedCounts = {};
+      questions = [];
+
+      for (let q of allQs) {
+        usedCounts[q] = 0;
+        questions.push(q);
+      }
+
+      shuffleArray(questions);
+      index = 0;
+      satisfied = 0;
+      sessionLength = questions.length;
+
+      document.getElementById('question-box').style.display = 'block';
+      showQuestion();
+    }
+
+    function showQuestion() {
+      if (index >= sessionLength) {
+        document.getElementById('question-text').textContent = "That's all! ✅ You answered " + satisfied + " out of " + sessionLength + " questions.";
+        document.getElementById('progress').textContent = '';
+        return;
+      }
+
+      const q = questions[index];
+      if (usedCounts[q] >= 2) {
         index++;
-      } else {
-        questionText.textContent = `That's all! ✅ You marked ${answered} of ${total} as satisfying.`;
-        progress.textContent = '';
+        showQuestion();
+        return;
+      }
+
+      document.getElementById('question-text').textContent = q;
+      document.getElementById('progress').textContent = "Question " + (index + 1) + " of " + sessionLength + " | Satisfied: " + satisfied;
+    }
+
+    function skipQuestion() {
+      usedCounts[questions[index]]++;
+      index++;
+      showQuestion();
+    }
+
+    function answerQuestion() {
+      usedCounts[questions[index]]++;
+      satisfied++;
+      index++;
+      showQuestion();
+    }
+
+    function shuffleArray(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
       }
     }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      document.getElementById("start-btn").addEventListener("click", initializeList);
-      document.getElementById("satisfy-btn").addEventListener("click", () => {
-        answered++;
-        showNextQuestion();
-      });
-      document.getElementById("skip-btn").addEventListener("click", showNextQuestion);
-    });
   </script>
 </body>
 </html>
