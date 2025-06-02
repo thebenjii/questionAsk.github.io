@@ -44,7 +44,7 @@ const allQuestions = {
       "What’s something you're currently working on emotionally?"
     ]
   },
-  "Benji and Them": {
+  "Benji Driving": {
     light: [
       "What would our couple TikTok be like?",
       "If we started a band, what would we be called?",
