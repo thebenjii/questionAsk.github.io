@@ -5,9 +5,17 @@
   <title>Question Maker 💬</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    :root {
+      --primary: #6C63FF;
+      --secondary: #FF6584;
+      --bg: #f0f2f5;
+      --text: #333;
+      --light: #ffffff;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background: #f8f8f8;
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg);
       margin: 0;
       padding: 0;
     }
@@ -15,42 +23,101 @@
     .container {
       max-width: 600px;
       margin: 40px auto;
-      padding: 20px;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 30px 20px;
+      background: var(--light);
+      border-radius: 20px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.1);
     }
 
     h1 {
       text-align: center;
-      color: #333;
+      color: var(--primary);
+      font-size: 2em;
+      margin-bottom: 1rem;
     }
 
     .controls {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      margin-bottom: 20px;
+      gap: 15px;
+      margin-bottom: 30px;
     }
 
     .controls label {
       font-weight: bold;
+      color: var(--text);
     }
 
     select, button {
-      padding: 10px;
+      padding: 12px;
       font-size: 1em;
-      border-radius: 5px;
+      border-radius: 10px;
       border: 1px solid #ccc;
+    }
+
+    select {
+      background-color: #f9f9f9;
+    }
+
+    button {
+      background-color: var(--primary);
+      color: white;
+      font-weight: bold;
+      border: none;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: var(--secondary);
     }
 
     #question-box {
       text-align: center;
+      margin-top: 20px;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    #question-box.visible {
+      opacity: 1;
     }
 
     #question-text {
-      font-size: 1.2em;
-      margin-bottom: 20px;
+      font-size: 1.3em;
+      color: var(--text);
+      margin-bottom: 25px;
+      padding: 15px;
+      background: #f7f7ff;
+      border-left: 5px solid var(--primary);
+      border-radius: 8px;
+      min-height: 80px;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    #progress {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 0.95em;
+      color: #777;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 0.9em;
+      color: #888;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        margin: 20px;
+      }
     }
   </style>
 </head>
@@ -59,14 +126,14 @@
     <h1>Question Maker 💬</h1>
 
     <div class="controls">
-      <label for="mode">Mode:</label>
+      <label for="mode">Select Mode</label>
       <select id="mode">
         <option>Ray Mode</option>
         <option>Benji is Driving</option>
         <option>Benji and Them</option>
       </select>
 
-      <label for="tone">Tone:</label>
+      <label for="tone">Select Tone</label>
       <select id="tone">
         <option>light</option>
         <option>deep</option>
@@ -77,7 +144,17 @@
 
     <div id="question-box">
       <p id="question-text">Choose a mode and tone to begin!</p>
-      <button id="next-btn">Next Question</button>
+
+      <div class="button-row">
+        <button id="skip-btn">Skip</button>
+        <button id="satisfy-btn">Answer (Satisfying)</button>
+      </div>
+
+      <div id="progress"></div>
+    </div>
+
+    <div class="footer">
+      Designed by AI ✨ | Powered by linked lists 🧠
     </div>
   </div>
 
@@ -103,50 +180,38 @@
     const questions = {
       "Ray Mode": {
         light: [
-          "What emoji describes me best?",
-          "What’s your go-to snack combo?",
-          "If your laugh had a color, what would it be?",
-          "Would you rather text or talk forever?",
-          "What’s something fun you’ve always wanted to try?"
+          "What's something fun you always wanted to try?",
+          "What's a food combo you swear by?",
+          "What emoji fits me best?"
         ],
         deep: [
-          "What’s something you wish more people understood about you?",
-          "What part of today felt most 'us'?",
-          "When do you feel most confident in who you are?",
-          "How do you want to be loved?",
-          "What lie do you sometimes still believe about yourself?"
+          "What lie do you still believe about yourself?",
+          "What does love mean to you?",
+          "When do you feel most seen?"
         ]
       },
       "Benji is Driving": {
         light: [
-          "Dogs or cats?",
-          "What’s my rom-com archetype?",
-          "Who’s more likely to make us late?",
-          "What weird talent do you wish you had?",
-          "If I got arrested tonight, what would it be for?"
+          "What’s my rom-com role?",
+          "Would I survive jail?",
+          "Weirdest dream you’ve ever had?"
         ],
         deep: [
-          "What’s your biggest fear in relationships?",
-          "When do you feel most connected to your purpose?",
-          "What was your turning point in life?",
-          "What’s one prayer you’ve seen answered?",
-          "What truth do you run from when it’s quiet?"
+          "What’s one prayer you've seen answered?",
+          "When do you feel closest to God?",
+          "What scares you in relationships?"
         ]
       },
       "Benji and Them": {
         light: [
-          "What would our couple TikTok be like?",
-          "If we started a band, what would we be called?",
-          "Do you think I could beat you in a dance battle?",
-          "Would we survive a zombie apocalypse together?",
-          "Who would play us in a movie — be honest."
+          "What’s our duo name?",
+          "If we had a podcast, what would it be called?",
+          "Dance battle: who wins?"
         ],
         deep: [
-          "Do you think we’re a good match energy-wise?",
-          "When do you feel most loved?",
-          "What’s something you’d want me to know if we dated?",
-          "What scares you most about someone knowing the real you?",
-          "What’s your definition of spiritual intimacy?"
+          "What’s your idea of spiritual intimacy?",
+          "What makes someone 'the one' for you?",
+          "What’s a truth you’re wrestling with?"
         ]
       }
     };
@@ -160,28 +225,43 @@
     }
 
     let currentNode = null;
+    let total = 0;
+    let index = 0;
+    let answered = 0;
 
     function initializeList() {
       const mode = document.getElementById("mode").value;
       const tone = document.getElementById("tone").value;
-      currentNode = linkedLists[mode][tone];
+      const array = questions[mode][tone];
+      total = array.length;
+      index = 0;
+      answered = 0;
+      currentNode = createLinkedList(array);
+      document.getElementById("question-box").classList.add("visible");
       showNextQuestion();
     }
 
     function showNextQuestion() {
       const questionText = document.getElementById("question-text");
+      const progress = document.getElementById("progress");
       if (currentNode) {
         questionText.textContent = currentNode.text;
+        progress.textContent = `Question ${index + 1} of ${total} | Satisfied: ${answered}`;
         currentNode = currentNode.next;
+        index++;
       } else {
-        questionText.textContent = "No more questions! 🎉";
+        questionText.textContent = `That's all! ✅ You marked ${answered} of ${total} as satisfying.`;
+        progress.textContent = '';
       }
     }
 
-    // Attach event listeners when DOM is ready
     document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("start-btn").addEventListener("click", initializeList);
-      document.getElementById("next-btn").addEventListener("click", showNextQuestion);
+      document.getElementById("satisfy-btn").addEventListener("click", () => {
+        answered++;
+        showNextQuestion();
+      });
+      document.getElementById("skip-btn").addEventListener("click", showNextQuestion);
     });
   </script>
 </body>
