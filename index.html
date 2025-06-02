@@ -120,6 +120,26 @@
       font-size: 1.1em;
     }
 
+    #progress-container {
+      margin-top: 20px;
+      height: 10px;
+      background: #3a3a3c;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    #progress-bar {
+      width: 100%;
+      height: 100%;
+    }
+
+    #progress-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--primary);
+      transition: width 0.4s ease;
+    }
+
     @media (max-width: 500px) {
       .card {
         padding: 20px 15px;
@@ -151,6 +171,11 @@
           <button onclick="skipQuestion()">Skip</button>
           <button onclick="answerQuestion()">Answer</button>
         </div>
+        <div id="progress-container">
+          <div id="progress-bar">
+            <div id="progress-fill"></div>
+          </div>
+        </div>
         <div class="summary" id="summary"></div>
       </div>
     </div>
@@ -175,7 +200,7 @@
       const file = tone === 'light' ? 'light_questions-2.txt' : 'deep_questions.txt';
       const res = await fetch(file);
       const text = await res.text();
-      return text.split('\\n').join('\\n').split('\n').map(q => q.trim()).filter(q => q.length > 0);
+      return text.split('\n').map(q => q.trim()).filter(q => q.length > 0);
     }
 
     async function startSession() {
@@ -198,6 +223,7 @@
 
       document.getElementById('question-box').style.display = 'block';
       document.getElementById('summary').textContent = '';
+      document.getElementById('progress-fill').style.width = '0%';
       showQuestion();
     }
 
@@ -205,6 +231,7 @@
       if (index >= sessionLength) {
         document.getElementById('question-text').textContent = "🌟 That’s all the questions!";
         document.getElementById('summary').innerHTML = `You answered <b>${satisfied}</b> out of <b>${sessionLength}</b> questions.`;
+        document.getElementById('progress-fill').style.width = '100%';
         return;
       }
 
@@ -216,6 +243,8 @@
       }
 
       document.getElementById('question-text').textContent = q;
+      const percent = ((index + 1) / sessionLength) * 100;
+      document.getElementById('progress-fill').style.width = percent + '%';
     }
 
     function skipQuestion() {
