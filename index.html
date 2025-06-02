@@ -4,13 +4,18 @@
   <meta charset="UTF-8" />
   <title>Question Maker 💬</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <style>
     :root {
       --primary: #6C63FF;
       --secondary: #FF6584;
-      --bg: #f0f2f5;
+      --bg: linear-gradient(135deg, #f0f2f5, #e0e7ff);
       --text: #333;
       --light: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
     }
 
     body {
@@ -27,6 +32,12 @@
       background: var(--light);
       border-radius: 20px;
       box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     h1 {
@@ -66,25 +77,50 @@
       font-size: 1.3em;
       color: var(--text);
       margin-bottom: 25px;
-      padding: 15px;
+      padding: 20px;
       background: #f7f7ff;
       border-left: 5px solid var(--primary);
-      border-radius: 8px;
-      min-height: 80px;
+      border-radius: 10px;
+      min-height: 100px;
+      transition: background 0.3s ease;
     }
 
     .btn-row {
       display: flex;
-      gap: 10px;
+      gap: 12px;
       justify-content: center;
       flex-wrap: wrap;
     }
 
-    #progress {
+    .btn-row button {
+      flex: 1;
+      min-width: 100px;
+    }
+
+    #progress-container {
+      margin-top: 15px;
+    }
+
+    #progress-bar {
+      width: 100%;
+      height: 12px;
+      background: #ddd;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    #progress-fill {
+      height: 100%;
+      background-color: var(--primary);
+      width: 0%;
+      transition: width 0.4s ease-in-out;
+    }
+
+    #confetti {
+      display: none;
       text-align: center;
-      margin-top: 10px;
-      font-size: 0.95em;
-      color: #777;
+      margin-top: 20px;
+      font-size: 1.5em;
     }
 
     @media (max-width: 600px) {
@@ -114,10 +150,15 @@
     <div id="question-box" style="display:none;">
       <p id="question-text">Loading...</p>
       <div class="btn-row">
-        <button onclick="skipQuestion()">Skip</button>
-        <button onclick="answerQuestion()">Answer</button>
+        <button onclick="skipQuestion()"><i class="fas fa-forward"></i> Skip</button>
+        <button onclick="answerQuestion()"><i class="fas fa-star"></i> Answer</button>
       </div>
-      <p id="progress"></p>
+      <div id="progress-container">
+        <div id="progress-bar">
+          <div id="progress-fill"></div>
+        </div>
+      </div>
+      <p id="confetti">🎉 Well done! You’ve finished the session. 🎉</p>
     </div>
   </div>
 
@@ -138,7 +179,6 @@
     async function startSession() {
       const mode = document.getElementById('mode').value;
       const tone = document.getElementById('tone').value;
-
       const allQs = await loadQuestions(tone);
 
       usedCounts = {};
@@ -155,6 +195,7 @@
       sessionLength = questions.length;
 
       document.getElementById('question-box').style.display = 'block';
+      document.getElementById('confetti').style.display = 'none';
       showQuestion();
     }
 
@@ -162,7 +203,8 @@
       if (index >= sessionLength) {
         document.getElementById('question-text').textContent =
           "That's all! ✅ You answered " + satisfied + " out of " + sessionLength + " questions.";
-        document.getElementById('progress').textContent = '';
+        document.getElementById('progress-fill').style.width = "100%";
+        document.getElementById('confetti').style.display = 'block';
         return;
       }
 
@@ -174,8 +216,8 @@
       }
 
       document.getElementById('question-text').textContent = q;
-      document.getElementById('progress').textContent =
-        "Question " + (index + 1) + " of " + sessionLength + " | Satisfied: " + satisfied;
+      const percent = ((index + 1) / sessionLength) * 100;
+      document.getElementById('progress-fill').style.width = percent + "%";
     }
 
     function skipQuestion() {
