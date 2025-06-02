@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Date Night Question Maker</title>
+  <title>Question Maker: Linked List Edition</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -13,39 +13,26 @@
     <div class="controls">
       <label for="mode">Mode:</label>
       <select id="mode">
-        <option value="Ray Mode">Ray Mode</option>
-        <option value="Benji is Driving">Benji is Driving</option>
-        <option value="Benji and Them">Benji and Them</option>
+        <option>Ray Mode</option>
+        <option>Benji is Driving</option>
+        <option>Benji and Them</option>
       </select>
 
       <label for="tone">Tone:</label>
       <select id="tone">
-        <option value="light">Keep It Light</option>
-        <option value="deep">Get Deep</option>
+        <option>light</option>
+        <option>deep</option>
       </select>
 
-      <button id="start-btn">Start / Reset</button>
+      <button onclick="initializeList()">Start / Reset</button>
     </div>
 
-    <div id="question-section" class="hidden fade">
-      <p id="question-text"></p>
-      <div class="ratings">
-        <button class="rate-btn" data-score="1">1</button>
-        <button class="rate-btn" data-score="2">2</button>
-        <button class="rate-btn" data-score="3">3</button>
-        <button class="rate-btn" data-score="4">4</button>
-        <button class="rate-btn" data-score="5">5</button>
-      </div>
-      <button id="skip-btn">Skip</button>
-      <button id="end-btn">End Game</button>
-    </div>
-
-    <div id="results-section" class="hidden">
-      <h2>Date Recap 💖</h2>
-      <p id="summary-text"></p>
-      <button onclick="location.reload()">Replay</button>
+    <div id="question-box">
+      <p id="question-text">Choose a mode and tone to begin!</p>
+      <button onclick="showNextQuestion()">Next Question</button>
     </div>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
